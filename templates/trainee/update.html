@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-12 col-xl-12">
+            <div class="bg-secondary rounded h-100 p-4">
+                <h6 class="mb-4">Update Trainee Form</h6>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="Instructor_Name" class="form-label">Trainee Name</label>
+                        <input type="text" class="form-control" name="name" value="{{ trainee.name }}" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="track" class="form-label">Trainee Track</label>
+                        <select class="form-control" name="track">
+                            {% for track in tracks %}
+                                <option value="{{track.id}}">{{track.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Instructor_date" class="form-label">Trainee Birth Day</label>
+                        <input type="date" class="form-control" name="bdate" value="{{ trainee.bdate }}" />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Trainee</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

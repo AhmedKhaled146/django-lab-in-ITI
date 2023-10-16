@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+    <div class="container-fluid pt-4 px-4">
+        <div class="bg-secondary text-center rounded p-4">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <h6 class="mb-0">Recent Salse</h6>
+                <a href="">Show All</a>
+            </div>
+            <div class="table-responsive">
+                <table class="table text-start align-middle table-bordered table-hover mb-0">
+                    <thead>
+                        <tr class="text-white">
+                            <th scope="col">name</th>
+                            <th scope="col">birth day</th>
+                            <th scope="col">track</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for trainee in all_trainees %}
+                        <tr>
+                            <td>{{ trainee.name }}</td>
+                            <td>{{ trainee.bdate }}</td>
+                            <td>{{ trainee.track }}</td>
+                            <td>
+                                <a class="btn btn-sm btn-primary" href="{% url 'trainee:update' trainee.id %}">Update</a>
+                                <a class="btn btn-sm btn-primary" href="{% url 'trainee:delete' trainee.id %}">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock body %}

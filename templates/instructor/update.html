@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-12 col-xl-12">
+            <div class="bg-secondary rounded h-100 p-4">
+                <h6 class="mb-4">Update Instructor Form</h6>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="Instructor_Name" class="form-label">Instructor Name</label>
+                        <input type="text" class="form-control" name="name" value="{{ instructor.name }}" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="Salary" class="form-label">Instructor Salary</label>
+                        <input type="number" class="form-control" name="salary" value="{{ instructor.salary }}" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="Instructor_date" class="form-label">Instructor Birth Day</label>
+                        <input type="date" class="form-control" name="bdate" value="{{ instructor.bdate }}" />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Instructor</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}
