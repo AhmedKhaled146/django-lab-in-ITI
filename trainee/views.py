@@ -1,8 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import Trainee
 from .models import *
-# from .models import Trainee, Track
+from .forms import *
 from django.contrib import messages
 # from django.views.generic.edit import CreateView
 from django.views import View
@@ -17,20 +16,6 @@ def list(request):
     all_trainees = Trainee.objects.all()
     return render(request, 'trainee/list.html', {'all_trainees': all_trainees})
 
-
-# def insert(request):
-#     if request.method == 'POST':
-#         name = request.POST['name']
-#         bdate = request.POST['bdate']
-#         track_id = request.POST['track']
-
-#         track = Track.objects.get(pk=track_id)
-
-#         Trainee.objects.create(name=name, track=track, bdate=bdate)
-
-#         messages.success(request, f'Trainee {name} added successfully.')
-#         return HttpResponseRedirect('/trainee/')
-#     return render(request, 'trainee/add.html', {'tracks': Track.objects.all()})
 
 def delete(request, id):
     Trainee.objects.filter(id=id).delete()
@@ -53,49 +38,73 @@ def update(request, id):
                                                    'tracks': Track.objects.all()})
 
 
-# from django.shortcuts import render
-# from django.http.response import HttpResponse,HttpResponseRedirect
-# from django.views import View
-from .forms import *
-# from .models import *
+# def insert(request):
+#     if request.method == 'POST':
+#         name = request.POST['name']
+#         bdate = request.POST['bdate']
+#         track_id = request.POST['track']
+
+#         track = Track.objects.get(pk=track_id)
+
+#         Trainee.objects.create(name=name, track=track, bdate=bdate)
+
+#         messages.success(request, f'Trainee {name} added successfully.')
+#         return HttpResponseRedirect('/trainee/')
+#     return render(request, 'trainee/add.html', {'tracks': Track.objects.all()})
 
 
-class TraineeAdd(View):
-    def get(self,req):
-        context = {}
-        context['track'] = Track.objects.all()
-        context['form']=AddTraineeform()
-        return render(req, 'trainee/add.html', context)
+class InsertTrainee(View):
 
-    def post(self,req):
-        form=AddTraineeform(req.POST)
-        if(form.is_valid()):
-            name = req.POST['name']
-            track_id = req.POST['track']
-            Trainee.objects.create(name=name, track=Track.objects.get(id=track_id),bdate=req.POST['bdate'])
-            return HttpResponseRedirect('List')
-        else:
-            context={'MSG':form.errors}
-            return render(req, 'trainee/add.html', context)
+    def get(self, request):
+        return render(request, 'trainee/add.html', {'tracks': Track.objects.all()})
 
-# class TraineeDelete(View):
-#     def get(self, req, id):
-#         Trainee.objects.filter(id=id).delete()
-#         return HttpResponseRedirect('List')
+    def post(self, request):
+        name = request.POST['name']
+        bdate = request.POST['bdate']
+        track_id = request.POST['track']
+        track = Track.objects.get(pk=track_id)
+        Trainee.objects.create(name=name, track=track, bdate=bdate)
+        messages.success(request, f'Trainee {name} added successfully.')
+        return HttpResponseRedirect('/trainee/')
 
-# # Create your views here.
-# def traineelist(req):
-#     context = {}
-#     trainees = Trainee.objects.all()
-#     context['trainees'] = trainees
-#     return render (req,'trainee/list.html',context)
 
-# def traineeupdate(req,id):
-#     context = {}
-#     context['track'] = Track.objects.all()
-#     context['oldTraineeData'] = Trainee.objects.get(id=id)
-#     if (req.method == 'POST'):
-#         Trainee.objects.filter(id=id).update(name=req.POST['name'], bdate=req.POST['DOB'],
-#                                              track=Track.objects.get(id=req.POST['track']))
-#     return render(req,'trainee/update.html',context)
 
+
+# class TraineeInsertView(View):
+#     template_name = 'trainee/insert.html'
+
+#     def get(self, request):
+#         # context = {}
+#         # context['track'] = Track.objects.all()
+#         # return render(request, self.template_name, context)
+#         form = TraineeForm()
+#         context = {'form': form}
+#         return render(request, self.template_name, context)
+
+
+#     def post(self, request):
+#         # name = request.POST.get('name', '')
+#         # track_id = request.POST.get('track_id', '')
+#         # birthdate = request.POST.get('birthdate', '')
+
+#         # if name:
+#         #     Trainee.objects.create(Name=name, track=Track.objects.get(ID=track_id), BirthDate=birthdate)
+#         #     return HttpResponseRedirect('/Trainee/List')
+#         # else:
+#         #     context = {'msg': 'You must enter the Trainee\'s name'}
+#         #     return render(request, self.template_name, context)
+#         form = TraineeForm(request.POST)  # Create a form instance with submitted data
+#         if form.is_valid():
+#             name = form.cleaned_data['name']
+#             track = form.cleaned_data['track']
+#             birthdate = form.cleaned_data['birthdate']
+
+#             if name:
+#                 Trainee.objects.create(Name=name, track=Track.objects.get(ID=track), BirthDate=birthdate)
+#                 return HttpResponseRedirect('/Trainee/List')
+#             else:
+#                 context = {'msg': 'You must enter the Trainee\'s name'}
+#         else:
+#             context = {'form': form}  # Send the form back with errors
+
+#         return render(request, self.template_name, context)
