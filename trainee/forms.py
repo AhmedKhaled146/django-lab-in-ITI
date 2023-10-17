@@ -1,22 +1,11 @@
-# from django import forms
-# from trainee.models import *
-# from track.models import *
+from django import forms
+from django.core.exceptions import ValidationError
+from trainee.models import Trainee
+from track.models import Track
+from datetime import date
 
 
-
-# class AddTraineeform(forms.Form):
-#     name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Enter trainee name'}))
-#     bdate = forms.DateField(label='Date of Birth', widget=forms.DateInput(attrs={'type': 'date'}))
-#     track = forms.ModelChoiceField(queryset=Track.objects.all())
-
-
-
-# # from django import forms
-# # from .models import Trainee
-# # from track.models import Track
-
-
-# # class TraineeForm(forms.Form):
-# #     name = forms.CharField(label='Name', max_length=100)
-# #     track = forms.ChoiceField(choices=[(tra.ID,tra.Name) for tra in Track.objects.all()])
-# #     birthdate = forms.DateField(label='Birthdate', widget=forms.DateInput(attrs={'type': 'date'}))
+class AddTraineeform(forms.Form):
+    name = forms.CharField(required=True, max_length=100)
+    bdate = forms.DateField(input_formats=['%Y-%d-%m'], help_text='YYYY-14-01')
+    track = forms.ModelChoiceField(queryset=Track.objects.all())

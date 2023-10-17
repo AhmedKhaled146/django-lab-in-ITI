@@ -3,11 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from .models import *
 from .forms import *
 from django.contrib import messages
-# from django.views.generic.edit import CreateView
 from django.views import View
-# from .forms import TraineeForm
-# from django.urls import reverse_lazy
-# Create your views here.
 
 
 
@@ -56,16 +52,44 @@ def update(request, id):
 class InsertTrainee(View):
 
     def get(self, request):
-        return render(request, 'trainee/add.html', {'tracks': Track.objects.all()})
+        return render(request, 'trainee/add.html', {'tracks': Track.objects.all(),
+                                                    'form': AddTraineeform()})
 
     def post(self, request):
-        name = request.POST['name']
-        bdate = request.POST['bdate']
-        track_id = request.POST['track']
-        track = Track.objects.get(pk=track_id)
-        Trainee.objects.create(name=name, track=track, bdate=bdate)
-        messages.success(request, f'Trainee {name} added successfully.')
-        return HttpResponseRedirect('/trainee/')
+        # form = AddTraineeform(request.POST)
+        # if form.is_valid():
+        #     name = request.POST['name']
+        #     bdate = request.POST['bdate']
+        #     track_id = request.POST['track']
+        #     track = Track.objects.get(pk=track_id)
+        #     Trainee.objects.create(name=name, track=track, bdate=bdate)
+        #     messages.success(request, f'Trainee {name} added successfully.')
+        #     return HttpResponseRedirect('/trainee/')
+        # else:
+        #     return render(request, 'trainee/add.html', {'tracks': Track.objects.all(),
+        #                                             'form': AddTraineeform(),
+        #                                             'msg': form.errors})
+
+        form = AddTraineeform(request.POST)  # Create a form instance with submitted data
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            track = form.cleaned_data['track']
+            bdate = form.cleaned_data['bdate']
+            track_id = request.POST['track']
+            track = Track.objects.get(pk=track_id)
+            Trainee.objects.create(name=name, track=track, bdate=bdate)
+
+            if name:
+                Trainee.objects.create(name=name, track=track, bdate=bdate)
+                return HttpResponseRedirect('/trainee/')
+            else:
+                context = {'msg': 'You must enter the Trainee\'s name'}
+        else:
+            context = {'form': form}  # Send the form back with errors
+
+        return render(request, 'trainee/add.html', context)
+
+
 
 
 
