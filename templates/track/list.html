@@ -29,7 +29,7 @@
                             <td>{{ track.id }}</td>
                             <td>{{ track.name }}</td>
                             <td>
-                                {% comment %} <a class="btn btn-sm btn-primary" href="{% url 'track:update' track.id %}">Update</a> {% endcomment %}
+                                <a class="btn btn-sm btn-primary" href="{% url 'track:update' track.id %}">Update</a>
                                 <a class="btn btn-sm btn-primary" href="{% url 'track:delete' track.id %}">Delete</a>
                             </td>
                         </tr>

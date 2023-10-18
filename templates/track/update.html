@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-12 col-xl-12">
+            <div class="bg-secondary rounded h-100 p-4">
+                <h6 class="mb-4">Update Track Form</h6>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="Instructor_Name" class="form-label">Track Name</label>
+                        <input type="text" class="form-control" name="name" value="{{ track.name }}" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Track</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

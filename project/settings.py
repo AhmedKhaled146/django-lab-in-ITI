@@ -38,10 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'home',
-    'myauth',
     'instructor',
     'trainee',
     'track',
+    'accounts',
+    'bootstrap5',
 ]
 
 MIDDLEWARE = [

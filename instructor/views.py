@@ -1,9 +1,12 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Instructor
 # Create your views here.
 
+
+@login_required
 def index(request):
     all_instructor = Instructor.objects.all()
     messages_list = messages.get_messages(request)
@@ -12,6 +15,7 @@ def index(request):
 
     return render(request, 'instructor/list.html', context)
 
+@login_required
 def insert(request):
     if request.method == 'POST':
         instructor_name = request.POST.get('name', None)
@@ -32,10 +36,13 @@ def insert(request):
 
     return render(request, 'instructor/add.html')
 
+@login_required
 def delete(request, id):
     Instructor.objects.filter(id=id).delete()
     return HttpResponseRedirect('/instructor/') # Redirect to the index page
 
+
+@login_required
 def update(request, id):
     instructor = get_object_or_404(Instructor, pk=id)
     if request.method == 'POST':

@@ -1,0 +1,15 @@
+{% extends "inher_base.html" %}
+{% load bootstrap5 %}
+
+{% block content %}
+
+  <form method="post">
+    {% csrf_token %}
+    {% bootstrap_form form%}
+    <button type="submit" value="signup" class="btn btn-primary py-3 w-100 mb-4">Sign Up</button>
+  </form>
+
+  {# Assumes you setup the password_reset view in your URLconf #}
+  <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+
+{% endblock %}

@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 from .models import *
 from .forms import *
 from django.contrib import messages
@@ -7,17 +8,18 @@ from django.views import View
 
 
 
-
+@login_required
 def list(request):
     all_trainees = Trainee.objects.all()
     return render(request, 'trainee/list.html', {'all_trainees': all_trainees})
 
-
+@login_required
 def delete(request, id):
     Trainee.objects.filter(id=id).delete()
     messages.success(request, 'Trainee deleted successfully.')
     return HttpResponseRedirect('/trainee/')
 
+@login_required
 def update(request, id):
     trainee = get_object_or_404(Trainee, pk=id)
     if request.method == 'POST':
@@ -48,13 +50,12 @@ def update(request, id):
 #         return HttpResponseRedirect('/trainee/')
 #     return render(request, 'trainee/add.html', {'tracks': Track.objects.all()})
 
-
 class InsertTrainee(View):
-
+    @login_required
     def get(self, request):
         return render(request, 'trainee/add.html', {'tracks': Track.objects.all(),
                                                     'form': AddTraineeform()})
-
+    @login_required
     def post(self, request):
         # form = AddTraineeform(request.POST)
         # if form.is_valid():

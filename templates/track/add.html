@@ -8,10 +8,11 @@
                 <h6 class="mb-4">Add Track Form</h6>
                 <form method="POST">
                     {% csrf_token %}
-                    <div class="mb-3">
+                    {{ form.as_p}}
+                    {% comment %} <div class="mb-3">
                         <label for="track_Name" class="form-label">Track Name</label>
                         <input type="text" class="form-control" name = "name" required />
-                    </div>
+                    </div> {% endcomment %}
                     <button type="submit" class="btn btn-primary">Add Track</button>
                 </form>
             </div>
